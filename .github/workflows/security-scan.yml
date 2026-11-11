@@ -23,7 +23,7 @@ jobs:
       # 2. Build Docker image
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile.secure -t my-app:${{ github.sha }} .
+          docker build -f Dockerfile -t my-app:${{ github.sha }} .
 
       # 3. Jalankan Trivy untuk scan image
       - name: Run Trivy vulnerability scanner

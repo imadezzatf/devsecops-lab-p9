@@ -1,4 +1,8 @@
-# Credential dan config rahasia
+# Local Depedency
+node_modules
+npm-debug.log
+
+# Credentials
 .env
 *.env
 .env.*
@@ -7,21 +11,11 @@
 .git
 .gitignore
 
-# Cache Python
-__pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-
 # IDE
 .vscode/
-.idea/
+.ides/
 
-# File test
-tests/
-*.test.py
-
-# Dokumentasi
-docs/
-README.md
+# Docs
 Dockerfile*
+.dockerignore
+README.md
