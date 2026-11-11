@@ -1,0 +1,36 @@
+# STAGE 1: Build stage - instal dependency
+FROM python:3.12-alpine AS builder
+
+# GOOD: set workdir dari awal
+WORKDIR /build
+
+# GOOD: copy hanya file yang diperlukan
+COPY requirements.txt .
+
+# GOOD: install dependency tanpa menyimpan cache
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# STAGE 2: Runtime stage - image final yang minimal
+FROM python:3.12-alpine AS runtime
+
+# GOOD: buat non-root user
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -u 1001 -S appuser -G appgroup
+
+WORKDIR /app
+
+# GOOD: copy dependency dari build stage
+COPY --from=builder /root/.local /home/appuser/.local
+
+# GOOD: copy hanya source code yang diperlukan
+COPY --chown=appuser:appgroup app.py .
+
+# GOOD: tidak ada credential di sini (inject saat runtime)
+
+# GOOD: jalankan sebagai non-root user
+USER appuser
+
+EXPOSE 8080
+
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
